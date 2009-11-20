@@ -55,8 +55,14 @@ function! s:apply()
   setlocal bufhidden=hide
   noautocmd execute 'keepjumps' b:partedit_bufnr 'buffer'
 
+  let modified = &l:modified
+
   silent execute printf('%d,%d delete _', start, end)
   silent execute start 'put!' '=contents'
+
+  if !modified
+    write
+  endif
 
   noautocmd execute 'keepjumps hide' bufnr 'buffer'
   setlocal bufhidden=wipe
