@@ -41,7 +41,8 @@ endfunction
 function! s:apply()
   let [start, end] = b:partedit_lines
 
-  if b:partedit_contents != getbufline(b:partedit_bufnr, start, end)
+  if !v:cmdbang &&
+  \    b:partedit_contents != getbufline(b:partedit_bufnr, start, end)
     " TODO: Takes a proper step.
     echo 'The range in the original buffer was changed.  Overwrite? [yN]'
     if getchar() !~? 'y'
