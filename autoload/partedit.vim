@@ -26,7 +26,7 @@ function! partedit#start(startline, endline, splitcmd)
   let b:partedit_bufnr = original_bufnr
   let b:partedit_lines = [a:startline, a:endline]
   let b:partedit_contents = contents
-  setlocal buftype=acwrite nomodified bufhidden=wipe
+  setlocal buftype=acwrite nomodified bufhidden=wipe noswapfile
 
   let &l:filetype = filetype
 
