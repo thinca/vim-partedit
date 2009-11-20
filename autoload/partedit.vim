@@ -12,6 +12,7 @@ set cpo&vim
 function! partedit#start(startline, endline, splitcmd)
   let original_bufnr = bufnr('%')
   let contents = getline(a:startline, a:endline)
+  let filetype = &l:filetype
 
   let partial_bufname = printf('%s#%d-%d', bufname(original_bufnr),
   \                            a:startline, a:endline)
@@ -26,6 +27,8 @@ function! partedit#start(startline, endline, splitcmd)
   let b:partedit_lines = [a:startline, a:endline]
   let b:partedit_contents = contents
   setlocal buftype=acwrite nomodified bufhidden=wipe
+
+  let &l:filetype = filetype
 
   augroup plugin-partedit
     autocmd! * <buffer>
