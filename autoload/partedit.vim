@@ -20,7 +20,7 @@ function! partedit#start(startline, endline, splitcmd)
   execute a:splitcmd
   noautocmd hide edit `=partial_bufname`
 
-  silent put =contents
+  silent put =s:adjust(contents)
   silent 1 delete _
 
   let b:partedit_bufnr = original_bufnr
@@ -59,7 +59,7 @@ function! s:apply()
   let modified = &l:modified
 
   silent execute printf('%d,%d delete _', start, end)
-  silent execute start 'put!' '=contents'
+  silent execute start 'put!' '=s:adjust(contents)'
 
   if !modified
     write
@@ -72,6 +72,13 @@ function! s:apply()
   let b:partedit_lines = [start, start + len(contents) - 1]
   setlocal nomodified
 endfunction
+
+
+
+function! s:adjust(lines)
+  return a:lines[-1] == '' ? a:lines + [''] : a:lines
+endfunction
+
 
 
 
