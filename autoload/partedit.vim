@@ -44,9 +44,16 @@ function! s:apply()
   if !v:cmdbang &&
   \    b:partedit_contents != getbufline(b:partedit_bufnr, start, end)
     " TODO: Takes a proper step.
-    echo 'The range in the original buffer was changed.  Overwrite? [yN]'
-    if getchar() !~? 'y'
-      return
+    let all = getbufline(b:partedit_bufnr, 1, '$')
+    let line = s:search_partial(all, b:partedit_contents, start) + 1
+    if line
+      let [start, end] = [line, line + end - start]
+
+    else
+      echo 'The range in the original buffer was changed.  Overwrite? [yN]'
+      if getchar() !~? 'y'
+        return
+      endif
     endif
   endif
 
@@ -78,6 +85,35 @@ endfunction
 function! s:adjust(lines)
   return a:lines[-1] == '' ? a:lines + [''] : a:lines
 endfunction
+
+
+
+function! s:search_partial(all, part, base)
+  let l = len(a:part)
+  let last = len(a:all)
+  let s:base = a:base
+  for n in sort(range(last), s:sorter)
+    if n + l <= last && a:all[n] == a:part[0] &&
+  \      a:all[n : n + l - 1] == a:part
+      return n
+    end
+  endfor
+  return -1
+endfunction
+
+
+
+function! s:sort(a, b)
+  return abs(a:a - s:base) - abs(a:b - s:base)
+endfunction
+
+
+function! s:SID()
+  return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\zeSID$')
+endfunction
+
+let s:sorter = function(s:SID() . 'sort')
+
 
 
 
