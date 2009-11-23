@@ -66,7 +66,7 @@ function! s:apply()
   let modified = &l:modified
 
   silent execute printf('%d,%d delete _', start, end)
-  silent execute start 'put!' '=s:adjust(contents)'
+  silent execute start - 1 'put' '=s:adjust(contents)'
 
   if !modified
     write
