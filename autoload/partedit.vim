@@ -10,6 +10,10 @@ set cpo&vim
 
 
 function! partedit#start(startline, endline, splitcmd)
+  if &l:readonly || !&l:modifiable
+    echoerr 'The buffer is readonly or nomodifiable.'
+    return
+  endif
   let original_bufnr = bufnr('%')
   let contents = getline(a:startline, a:endline)
   let filetype = &l:filetype
