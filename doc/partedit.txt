@@ -1,4 +1,4 @@
-*partedit.txt*	Edit a part of a buffer with a another buffer.
+*partedit.txt*	Edits part of buffer by another buffer.
 
 Version: 0.1.0
 Author : thinca <thinca+vim@gmail.com>

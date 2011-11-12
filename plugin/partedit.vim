@@ -1,4 +1,4 @@
-" Edit a part of a buffer with a another buffer.
+" Edits part of buffer by another buffer.
 " Version: 0.1.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: zlib License
