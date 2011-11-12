@@ -11,6 +11,7 @@ CONTENTS					*partedit-contents*
 INTRODUCTION			|partedit-introduction|
 INTERFACE			|partedit-interface|
   COMMANDS			  |partedit-commands|
+  FUNCTIONS			  |partedit-functions|
 LIMITATION			|partedit-limitation|
 CHANGELOG			|partedit-changelog|
 
@@ -34,6 +35,12 @@ COMMANDS					*partedit-commands*
 	Starts editing a part of a buffer.  [range] of default is current
 	line.  The partedit buffer is opened by [opener] command such as
 	|:new|, |:vsplit|, and so on.  If omitted, |:edit| is used.
+
+------------------------------------------------------------------------------
+FUNCTIONS					*partedit-functions*
+
+partedit#start({startline}, {endline}, [, {opener}])	*partedit#start()*
+	Function version of |:Partedit|.
 
 
 
