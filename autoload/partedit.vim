@@ -51,7 +51,7 @@ function! s:apply()
 
     else
       echo 'The range in the original buffer was changed.  Overwrite? [yN]'
-      if getchar() !~? 'y'
+      if nr2char(getchar()) !~? 'y'
         return
       endif
     endif
