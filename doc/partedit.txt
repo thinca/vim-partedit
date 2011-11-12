@@ -30,11 +30,10 @@ INTERFACE					*partedit-interface*
 ------------------------------------------------------------------------------
 COMMANDS					*partedit-commands*
 
-:[range]Partedit [split]			*:Partedit*
-			Start to edit a part of the buffer.  The default
-			[range] is the current line.  The partedit buffer is
-			opened by [split] command.  If omitted, it is opened
-			in current window.
+:[range]Partedit [opener]			*:Partedit*
+	Starts editing a part of a buffer.  [range] of default is current
+	line.  The partedit buffer is opened by [opener] command such as
+	|:new|, |:vsplit|, and so on.  If omitted, |:edit| is used.
 
 
 

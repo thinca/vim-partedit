@@ -9,7 +9,7 @@ set cpo&vim
 
 
 
-function! partedit#start(startline, endline, splitcmd)
+function! partedit#start(startline, endline, ...)
   if &l:readonly || !&l:modifiable
     echoerr 'The buffer is readonly or nomodifiable.'
     return
@@ -21,8 +21,8 @@ function! partedit#start(startline, endline, splitcmd)
   let partial_bufname = printf('%s#%d-%d', bufname(original_bufnr),
   \                            a:startline, a:endline)
 
-  execute a:splitcmd
-  noautocmd hide edit `=partial_bufname`
+  let opener = a:0 && a:1 =~# '\S' ? a:1 : 'edit'
+  noautocmd hide execute opener '`=partial_bufname`'
 
   silent put =s:adjust(contents)
   silent 1 delete _
