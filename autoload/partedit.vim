@@ -9,7 +9,9 @@ set cpo&vim
 
 function! partedit#start(startline, endline, ...)
   if &l:readonly || !&l:modifiable
-    echoerr 'The buffer is readonly or nomodifiable.'
+    echohl ErrorMsg
+    echomsg 'The buffer is readonly or nomodifiable.'
+    echohl None
     return
   endif
   let original_bufnr = bufnr('%')
