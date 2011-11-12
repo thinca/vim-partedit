@@ -1,5 +1,5 @@
 " Edits part of buffer by another buffer.
-" Version: 0.1.0
+" Version: 1.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: zlib License
 
