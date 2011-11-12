@@ -88,7 +88,7 @@ function! s:search_partial(all, part, base)
   let l = len(a:part)
   let last = len(a:all)
   let s:base = a:base
-  for n in sort(range(last), s:sorter)
+  for n in sort(range(last), 's:sort')
     if n + l <= last && a:all[n] == a:part[0] &&
   \      a:all[n : n + l - 1] == a:part
       return n
@@ -101,12 +101,6 @@ endfunction
 function! s:sort(a, b)
   return abs(a:a - s:base) - abs(a:b - s:base)
 endfunction
-
-function! s:SID()
-  return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\zeSID$')
-endfunction
-
-let s:sorter = function(s:SID() . 'sort')
 
 
 let &cpo = s:save_cpo
