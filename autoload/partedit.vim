@@ -7,8 +7,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-
-
 function! partedit#start(startline, endline, ...)
   if &l:readonly || !&l:modifiable
     echoerr 'The buffer is readonly or nomodifiable.'
@@ -39,8 +37,6 @@ function! partedit#start(startline, endline, ...)
     autocmd BufWriteCmd <buffer> nested call s:apply()
   augroup END
 endfunction
-
-
 
 function! s:apply()
   let [start, end] = b:partedit_lines
@@ -84,13 +80,9 @@ function! s:apply()
   setlocal nomodified
 endfunction
 
-
-
 function! s:adjust(lines)
   return a:lines[-1] == '' ? a:lines + [''] : a:lines
 endfunction
-
-
 
 function! s:search_partial(all, part, base)
   let l = len(a:part)
@@ -106,20 +98,15 @@ function! s:search_partial(all, part, base)
 endfunction
 
 
-
 function! s:sort(a, b)
   return abs(a:a - s:base) - abs(a:b - s:base)
 endfunction
-
 
 function! s:SID()
   return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\zeSID$')
 endfunction
 
 let s:sorter = function(s:SID() . 'sort')
-
-
-
 
 
 let &cpo = s:save_cpo
