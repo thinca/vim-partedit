@@ -35,7 +35,7 @@ function! partedit#start(startline, endline, ...)
     endif
   endif
 
-  let filetype = &l:filetype
+  let filetype = get(b:, 'partedit_filetype', &l:filetype)
 
   let partial_bufname = printf('%s#%d-%d', bufname(original_bufnr),
   \                            a:startline, a:endline)
