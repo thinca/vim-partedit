@@ -15,6 +15,26 @@ function! partedit#start(startline, endline, ...)
   endif
   let original_bufnr = bufnr('%')
   let contents = getline(a:startline, a:endline)
+  let original_contents = contents
+  let prefix = get(b:, 'partedit_prefix', '')
+  if prefix !=# ''
+    let len = len(prefix)
+    let pos = len - 1
+    let all_prefix_exists = 1
+    for line in contents
+      if line[: pos] !=# prefix
+        let all_prefix_exists = 0
+        break
+      endif
+    endfor
+    if all_prefix_exists
+      let original_contents = copy(contents)
+      call map(contents, 'v:val[len :]')
+    else
+      let prefix = ''
+    endif
+  endif
+
   let filetype = &l:filetype
 
   let partial_bufname = printf('%s#%d-%d', bufname(original_bufnr),
@@ -28,7 +48,8 @@ function! partedit#start(startline, endline, ...)
 
   let b:partedit__bufnr = original_bufnr
   let b:partedit__lines = [a:startline, a:endline]
-  let b:partedit__contents = contents
+  let b:partedit__contents = original_contents
+  let b:partedit__prefix = prefix
   setlocal buftype=acwrite nomodified bufhidden=wipe noswapfile
 
   let &l:filetype = filetype
@@ -58,7 +79,7 @@ function! s:apply()
     endif
   endif
 
-  let contents = getline(1, '$')
+  let contents = map(getline(1, '$'), 'b:partedit__prefix . v:val')
   let bufnr = bufnr('%')
 
   setlocal bufhidden=hide
