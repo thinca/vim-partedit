@@ -26,9 +26,9 @@ function! partedit#start(startline, endline, ...)
   silent put =s:adjust(contents)
   silent 1 delete _
 
-  let b:partedit_bufnr = original_bufnr
-  let b:partedit_lines = [a:startline, a:endline]
-  let b:partedit_contents = contents
+  let b:partedit__bufnr = original_bufnr
+  let b:partedit__lines = [a:startline, a:endline]
+  let b:partedit__contents = contents
   setlocal buftype=acwrite nomodified bufhidden=wipe noswapfile
 
   let &l:filetype = filetype
@@ -40,13 +40,13 @@ function! partedit#start(startline, endline, ...)
 endfunction
 
 function! s:apply()
-  let [start, end] = b:partedit_lines
+  let [start, end] = b:partedit__lines
 
   if !v:cmdbang &&
-  \    b:partedit_contents != getbufline(b:partedit_bufnr, start, end)
+  \    b:partedit__contents != getbufline(b:partedit__bufnr, start, end)
     " TODO: Takes a proper step.
-    let all = getbufline(b:partedit_bufnr, 1, '$')
-    let line = s:search_partial(all, b:partedit_contents, start) + 1
+    let all = getbufline(b:partedit__bufnr, 1, '$')
+    let line = s:search_partial(all, b:partedit__contents, start) + 1
     if line
       let [start, end] = [line, line + end - start]
 
@@ -62,7 +62,7 @@ function! s:apply()
   let bufnr = bufnr('%')
 
   setlocal bufhidden=hide
-  noautocmd execute 'keepjumps' b:partedit_bufnr 'buffer'
+  noautocmd execute 'keepjumps' b:partedit__bufnr 'buffer'
 
   let modified = &l:modified
 
@@ -76,8 +76,8 @@ function! s:apply()
   noautocmd execute 'keepjumps hide' bufnr 'buffer'
   setlocal bufhidden=wipe
 
-  let b:partedit_contents = contents
-  let b:partedit_lines = [start, start + len(contents) - 1]
+  let b:partedit__contents = contents
+  let b:partedit__lines = [start, start + len(contents) - 1]
   setlocal nomodified
 endfunction
 
