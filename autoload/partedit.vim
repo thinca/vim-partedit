@@ -18,18 +18,20 @@ function! partedit#start(startline, endline, ...)
   let original_contents = contents
   let prefix = get(b:, 'partedit_prefix', '')
   if prefix !=# ''
-    let len = len(prefix)
+    let sprefix = substitute(prefix, '\s\+$', '', '')
+    let len = len(sprefix)
     let pos = len - 1
     let all_prefix_exists = 1
     for line in contents
-      if line[: pos] !=# prefix
+      if line[: pos] !=# sprefix
         let all_prefix_exists = 0
         break
       endif
     endfor
     if all_prefix_exists
       let original_contents = copy(contents)
-      call map(contents, 'v:val[len :]')
+      let pat = '^' . substitute(prefix, '\s\+$', '\\%(\0\\|$\\)', '')
+      call map(contents, 'substitute(v:val, pat, "", "")')
     else
       let prefix = ''
     endif
@@ -79,7 +81,12 @@ function! s:apply()
     endif
   endif
 
-  let contents = map(getline(1, '$'), 'b:partedit__prefix . v:val')
+  let contents = getline(1, '$')
+  if b:partedit__prefix !=# ''
+    let prefix = b:partedit__prefix
+    let sprefix = substitute(prefix, '\s\+$', '', '')
+    call map(contents, '(v:val ==# "" ? sprefix : prefix) . v:val')
+  endif
   let bufnr = bufnr('%')
 
   setlocal bufhidden=hide
