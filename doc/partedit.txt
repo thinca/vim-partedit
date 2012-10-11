@@ -44,6 +44,54 @@ partedit#start({startline}, {endline}, [, {opener}])	*partedit#start()*
 
 
 ==============================================================================
+CUSTOMIZING					*partedit-customizing*
+
+b:partedit_prefix				*b:partedit_prefix*
+	If this value is not empty, and each lines start with this string,
+	this plugin removes common prefix on partedit buffer.
+	The prefix is restored on original buffer.
+	The blank of the end of a prefix is adjusted by good taste.
+>
+	let b:partedit_prefix = '> '
+
+	=== original buffer ===
+	> This is a sample text.
+	>
+	> Upper line has prefix ">", not "> ". But this is OK.
+
+	=== partedit buffer ===
+	This is a sample text.
+	
+	Upper line has prefix ">", not "> ". But this is OK.
+
+		| edit
+		v
+	=== partedit buffer ===
+	This is a sample text.
+	
+	Upper line has prefix ">", not "> ". But this is OK.
+	
+	All texts are restored with "> " prefix,
+	but blank of the end of empty line is removed.
+
+	=== original buffer ===
+	> This is a sample text.
+	>
+	> Upper line has prefix ">", not "> ". But this is OK.
+	>
+	> All texts are restored with "> " prefix,
+	> but blank of the end of empty line is removed.
+
+b:partedit_filetype				*b:partedit_filetype*
+	If this variable exists, 'filetype' of newly opened partedit buffer
+	becomes this value.
+
+g:partedit#auto_prefix				*g:partedit#auto_prefix*
+	If this is true and |b:partedit_prefix| is empty, the common prefix of
+	range is treated as prefix.
+
+
+==============================================================================
 LIMITATION					*partedit-limitation*
 
 - If you edit the original buffer, it will be not likely to be able to apply
