@@ -6,6 +6,10 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+if !exists('g:partedit#auto_prefix')
+  let g:partedit#auto_prefix = 1
+endif
+
 function! partedit#start(startline, endline, ...)
   if &l:readonly || !&l:modifiable
     echohl ErrorMsg
@@ -34,6 +38,21 @@ function! partedit#start(startline, endline, ...)
       call map(contents, 'substitute(v:val, pat, "", "")')
     else
       let prefix = ''
+    endif
+  endif
+  if prefix ==# '' && g:partedit#auto_prefix && 2 <= len(contents)
+    let prefix = contents[0]
+    for line in contents[1 :]
+      let pat = substitute(line, '.', '[\0]', 'g')
+      let prefix = matchstr(prefix, '^\%[' . pat . ']')
+      if prefix ==# ''
+        break
+      endif
+    endfor
+    if prefix !=# ''
+      let original_contents = copy(contents)
+      let len = len(prefix)
+      call map(contents, 'v:val[len :]')
     endif
   endif
 
