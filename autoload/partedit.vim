@@ -10,6 +10,10 @@ if !exists('g:partedit#auto_prefix')
   let g:partedit#auto_prefix = 1
 endif
 
+function! partedit#command(startline, endline, args)
+  call partedit#start(a:startline, a:endline, {'opener': a:args})
+endfunction
+
 function! partedit#start(startline, endline, ...)
   if &l:readonly || !&l:modifiable
     echohl ErrorMsg
@@ -17,6 +21,7 @@ function! partedit#start(startline, endline, ...)
     echohl None
     return
   endif
+  let options = a:0 ? a:1 : {}
   let original_bufnr = bufnr('%')
   let contents = getline(a:startline, a:endline)
   let original_contents = contents
@@ -61,7 +66,10 @@ function! partedit#start(startline, endline, ...)
   let partial_bufname = printf('%s#%d-%d', bufname(original_bufnr),
   \                            a:startline, a:endline)
 
-  let opener = a:0 && a:1 =~# '\S' ? a:1 : 'edit'
+  let opener = get(options, 'opener', '')
+  if opener ==# ''
+    let opener = 'edit'
+  endif
   noautocmd hide execute opener '`=partial_bufname`'
 
   silent put =s:adjust(contents)

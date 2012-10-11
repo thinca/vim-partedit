@@ -12,7 +12,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 command! -nargs=? -bar -range -complete=command Partedit
-\        call partedit#start(<line1>, <line2>, <q-args>)
+\        call partedit#command(<line1>, <line2>, <q-args>)
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
