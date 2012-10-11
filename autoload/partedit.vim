@@ -116,7 +116,7 @@ function! s:apply()
   silent execute printf('%d,%d delete _', start, end)
   silent execute start - 1 'put' '=s:adjust(contents)'
 
-  if !modified
+  if &l:buftype =~# '^\%(\|acwrite\)$' && !modified
     write
   endif
 
