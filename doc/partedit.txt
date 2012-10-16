@@ -87,6 +87,7 @@ b:partedit_filetype				*b:partedit_filetype*
 	becomes this value.
 
 g:partedit#auto_prefix				*g:partedit#auto_prefix*
+b:partedit_auto_prefix				*g:partedit_auto_prefix*
 	If this is true and |b:partedit_prefix| is empty, the common prefix of
 	range is treated as prefix.
 

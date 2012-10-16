@@ -45,7 +45,8 @@ function! partedit#start(startline, endline, ...)
       let prefix = ''
     endif
   endif
-  if prefix ==# '' && g:partedit#auto_prefix && 2 <= len(contents)
+  let auto_prefix = get(b:, 'partedit_auto_prefix', g:partedit#auto_prefix)
+  if prefix ==# '' && auto_prefix && 2 <= len(contents)
     let prefix = contents[0]
     for line in contents[1 :]
       let pat = substitute(line, '.', '[\0]', 'g')
