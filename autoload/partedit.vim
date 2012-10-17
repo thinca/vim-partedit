@@ -8,9 +8,25 @@ set cpo&vim
 
 function! partedit#command(startline, endline, args)
   let options = {}
-  if a:args !=# ''
-    let options.opener = a:args
-  endif
+  let rest = a:args
+  while rest =~# '^\s*-\w\+'
+    let [opt, rest] = matchlist(rest, '^\s*-\(\w\+\)\s*\(.*\)')[1 : 2]
+    if rest[0] =~# '["'']'
+      let q = rest[0]
+      let rest = rest[1 :]
+      let pos = match(rest, '\\\@<!' . q)
+      if 0 <= pos
+        let value = substitute(rest[: pos - 1], '\\\(.\)', '\1', 'g')
+        let rest = rest[pos + 1 :]
+      else
+        let value = rest
+        let rest = ''
+      endif
+    else
+      let [value, rest] = matchlist(rest, '^\(\S\+\)\s*\(.*\)')[1 : 2]
+    endif
+    let options[opt] = value
+  endwhile
   call partedit#start(a:startline, a:endline, options)
 endfunction
 
@@ -151,7 +167,6 @@ function! s:search_partial(all, part, base)
   endfor
   return -1
 endfunction
-
 
 function! s:sort(a, b)
   return abs(a:a - s:base) - abs(a:b - s:base)
