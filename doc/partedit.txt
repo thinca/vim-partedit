@@ -43,6 +43,8 @@ partedit#start({startline}, {endline} [, {options}])
 	Function version of |:Partedit|.
 	{options} is a |Dictionary| which contains the following items:
 
+	"opener"
+		Overwrites |g:partedit#opener| and |b:partedit_opener|.
 	"prefix"
 		Overwrites |g:partedit#prefix| and |b:partedit_prefix|.
 	"filetype"
@@ -55,6 +57,11 @@ partedit#start({startline}, {endline} [, {options}])
 
 ==============================================================================
 CUSTOMIZING					*partedit-customizing*
+
+g:partedit#opener				*g:partedit#opener*
+b:partedit_opener				*b:partedit_opener*
+	The partedit buffer is opened by this command such as |:new|,
+	|:vsplit|, and so on.  If omitted, |:edit| is used.
 
 g:partedit#prefix				*g:partedit#prefix*
 b:partedit_prefix				*b:partedit_prefix*

@@ -7,7 +7,11 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! partedit#command(startline, endline, args)
-  call partedit#start(a:startline, a:endline, {'opener': a:args})
+  let options = {}
+  if a:args !=# ''
+    let options.opener = a:args
+  endif
+  call partedit#start(a:startline, a:endline, options)
 endfunction
 
 function! partedit#start(startline, endline, ...)
@@ -64,10 +68,7 @@ function! partedit#start(startline, endline, ...)
   let partial_bufname = printf('%s#%d-%d', bufname(original_bufnr),
   \                            a:startline, a:endline)
 
-  let opener = get(options, 'opener', '')
-  if opener ==# ''
-    let opener = 'edit'
-  endif
+  let opener = s:get_option('opener', options, 'edit')
   noautocmd hide execute opener '`=partial_bufname`'
 
   silent put =s:adjust(contents)
