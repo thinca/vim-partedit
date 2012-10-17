@@ -6,10 +6,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-if !exists('g:partedit#auto_prefix')
-  let g:partedit#auto_prefix = 1
-endif
-
 function! partedit#command(startline, endline, args)
   call partedit#start(a:startline, a:endline, {'opener': a:args})
 endfunction
@@ -25,7 +21,8 @@ function! partedit#start(startline, endline, ...)
   let original_bufnr = bufnr('%')
   let contents = getline(a:startline, a:endline)
   let original_contents = contents
-  let prefix = get(b:, 'partedit_prefix', '')
+
+  let prefix = s:get_option('prefix', options, '')
   if prefix !=# ''
     let sprefix = substitute(prefix, '\s\+$', '', '')
     let len = len(sprefix)
@@ -45,7 +42,7 @@ function! partedit#start(startline, endline, ...)
       let prefix = ''
     endif
   endif
-  let auto_prefix = get(b:, 'partedit_auto_prefix', g:partedit#auto_prefix)
+  let auto_prefix = s:get_option('auto_prefix', options, 1)
   if prefix ==# '' && auto_prefix && 2 <= len(contents)
     let prefix = contents[0]
     for line in contents[1 :]
@@ -62,7 +59,7 @@ function! partedit#start(startline, endline, ...)
     endif
   endif
 
-  let filetype = get(b:, 'partedit_filetype', &l:filetype)
+  let filetype = s:get_option('filetype', options, &l:filetype)
 
   let partial_bufname = printf('%s#%d-%d', bufname(original_bufnr),
   \                            a:startline, a:endline)
@@ -157,6 +154,19 @@ endfunction
 
 function! s:sort(a, b)
   return abs(a:a - s:base) - abs(a:b - s:base)
+endfunction
+
+function! s:get_option(name, base, default)
+  if has_key(a:base, a:name)
+    return a:base[a:name]
+  endif
+  if exists('b:partedit_' . a:name)
+    return b:partedit_{a:name}
+  endif
+  if exists('g:partedit#' . a:name)
+    return g:partedit#{a:name}
+  endif
+  return a:default
 endfunction
 
 

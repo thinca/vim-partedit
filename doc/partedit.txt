@@ -38,14 +38,25 @@ COMMANDS					*partedit-commands*
 ------------------------------------------------------------------------------
 FUNCTIONS					*partedit-functions*
 
-partedit#start({startline}, {endline}, [, {opener}])	*partedit#start()*
+						*partedit#start()*
+partedit#start({startline}, {endline} [, {options}])
 	Function version of |:Partedit|.
+	{options} is a |Dictionary| which contains the following items:
+
+	"prefix"
+		Overwrites |g:partedit#prefix| and |b:partedit_prefix|.
+	"filetype"
+		Overwrites |g:partedit#filetype| and |b:partedit_filetype|.
+	"auto_prefix"
+		Overwrites |g:partedit#auto_prefix| and
+		|b:partedit_auto_prefix|.
 
 
 
 ==============================================================================
 CUSTOMIZING					*partedit-customizing*
 
+g:partedit#prefix				*g:partedit#prefix*
 b:partedit_prefix				*b:partedit_prefix*
 	If this value is not empty, and each lines start with this string,
 	this plugin removes common prefix on partedit buffer.
@@ -82,12 +93,13 @@ b:partedit_prefix				*b:partedit_prefix*
 	> All texts are restored with "> " prefix,
 	> but blank of the end of empty line is removed.
 
+g:partedit#filetype				*g:partedit#filetype*
 b:partedit_filetype				*b:partedit_filetype*
 	If this variable exists, 'filetype' of newly opened partedit buffer
 	becomes this value.
 
 g:partedit#auto_prefix				*g:partedit#auto_prefix*
-b:partedit_auto_prefix				*g:partedit_auto_prefix*
+b:partedit_auto_prefix				*b:partedit_auto_prefix*
 	If this is true and |b:partedit_prefix| is empty, the common prefix of
 	range is treated as prefix.
 
