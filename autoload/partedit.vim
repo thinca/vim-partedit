@@ -85,6 +85,8 @@ function! partedit#start(startline, endline, ...)
   \                            a:startline, a:endline)
 
   let opener = s:get_option('opener', options, 'edit')
+  let bufhidden = &l:bufhidden
+  setlocal bufhidden=hide
   noautocmd hide execute opener '`=partial_bufname`'
 
   silent put =s:adjust(contents)
@@ -94,6 +96,7 @@ function! partedit#start(startline, endline, ...)
   let b:partedit__lines = [a:startline, a:endline]
   let b:partedit__contents = original_contents
   let b:partedit__prefix = prefix
+  let b:partedit__bufhidden = bufhidden
   setlocal buftype=acwrite nomodified bufhidden=wipe noswapfile
 
   let &l:filetype = filetype
@@ -101,6 +104,8 @@ function! partedit#start(startline, endline, ...)
   augroup plugin-partedit
     autocmd! * <buffer>
     autocmd BufWriteCmd <buffer> nested call s:apply()
+    autocmd BufWipeout  <buffer> nested
+    \   call setbufvar(b:partedit__bufnr, '&bufhidden', b:partedit__bufhidden)
   augroup END
 endfunction
 
