@@ -99,6 +99,8 @@ function! partedit#start(startline, endline, ...)
   let b:partedit__bufhidden = bufhidden
   setlocal buftype=acwrite nomodified bufhidden=wipe noswapfile
 
+  command! -buffer -bar ParteditEnd execute b:partedit__bufnr 'buffer'
+
   let &l:filetype = filetype
 
   augroup plugin-partedit

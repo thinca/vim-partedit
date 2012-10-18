@@ -37,6 +37,10 @@ COMMANDS					*partedit-commands*
 
 	:Partedit -opener new -filetype vim -prefix "> "
 
+:ParteditEnd					*:ParteditEnd*
+	This is available in the partedit buffer.
+	Opens the original buffer in current window.
+
 ------------------------------------------------------------------------------
 FUNCTIONS					*partedit-functions*
 
