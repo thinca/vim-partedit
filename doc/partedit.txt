@@ -68,6 +68,8 @@ g:partedit#opener				*g:partedit#opener*
 b:partedit_opener				*b:partedit_opener*
 	The partedit buffer is opened by this command such as |:new|,
 	|:vsplit|, and so on.  If omitted, |:edit| is used.
+	If the value is starts with "=", it is treated as |expr|, and result
+	is a opener.
 
 g:partedit#prefix				*g:partedit#prefix*
 b:partedit_prefix				*b:partedit_prefix*

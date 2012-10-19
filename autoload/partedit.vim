@@ -90,6 +90,9 @@ function! partedit#start(startline, endline, ...)
   \                            a:startline, a:endline)
 
   let opener = s:get_option('opener', options, 'edit')
+  if opener[0] ==# '='
+    let opener = eval(opener[1 :])
+  endif
   let bufhidden = &l:bufhidden
   setlocal bufhidden=hide
   noautocmd hide execute opener '`=partial_bufname`'
