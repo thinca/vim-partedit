@@ -11,7 +11,7 @@ let g:loaded_partedit = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-command! -nargs=? -range Partedit
+command! -nargs=? -range -complete=customlist,partedit#complete Partedit
 \        call partedit#command(<line1>, <line2>, <q-args>)
 
 let &cpo = s:save_cpo

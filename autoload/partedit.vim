@@ -30,6 +30,11 @@ function! partedit#command(startline, endline, args)
   call partedit#start(a:startline, a:endline, options)
 endfunction
 
+function! partedit#complete(lead, cmd, pos)
+  let options = ['-opener', '-prefix', '-filetype', '-auto_prefix']
+  return filter(options, 'v:val =~# "^\\V" . escape(a:lead, "\\")')
+endfunction
+
 function! partedit#start(startline, endline, ...)
   if &l:readonly || !&l:modifiable
     echohl ErrorMsg
