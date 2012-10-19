@@ -1,6 +1,6 @@
 *partedit.txt*	Edits part of buffer by another buffer.
 
-Version: 1.0
+Version: 1.1
 Author : thinca <thinca+vim@gmail.com>
 License: zlib License
 
@@ -129,6 +129,16 @@ LIMITATION					*partedit-limitation*
 
 ==============================================================================
 CHANGELOG					*partedit-changelog*
+
+1.1	2012-10-19
+	- Add `prefix` feature.
+	- Add some options.
+	  - |g:partedit#opener| |b:partedit_opener|
+	  - |g:partedit#prefix| |b:partedit_prefix|
+	  - |g:partedit#filetype| |b:partedit_filetype|
+	  - |g:partedit#auto_prefix| |b:partedit_auto_prefix|
+	- Add |:ParteditEnd| command.
+	- Change the argument of |:Partedit|.
 
 1.0	2011-11-12
 	- Initial version.
