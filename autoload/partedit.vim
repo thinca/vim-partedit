@@ -85,6 +85,7 @@ function! partedit#start(startline, endline, ...)
   endif
 
   let filetype = s:get_option('filetype', options, &l:filetype)
+  let [fenc, ff] = [&l:fileencoding, &l:fileformat]
 
   let partial_bufname = printf('%s#%d-%d', bufname(original_bufnr),
   \                            a:startline, a:endline)
@@ -97,6 +98,7 @@ function! partedit#start(startline, endline, ...)
   setlocal bufhidden=hide
   noautocmd hide execute opener '`=partial_bufname`'
 
+  let [&l:fileencoding, &l:fileformat] = [fenc, ff]
   silent put =s:adjust(contents)
   silent 1 delete _
 
