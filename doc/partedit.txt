@@ -1,6 +1,6 @@
 *partedit.txt*	Edits part of buffer by another buffer.
 
-Version: 1.1
+Version: 1.2
 Author : thinca <thinca+vim@gmail.com>
 License: zlib License
 
@@ -133,6 +133,10 @@ LIMITATION					*partedit-limitation*
 
 ==============================================================================
 CHANGELOG					*partedit-changelog*
+
+1.2	2012-11-27
+	- Use same 'fileencoding' and 'fileformat' in partedit buffer.
+	- `:Partedit [opener]` support.
 
 1.1	2012-10-19
 	- Add `prefix` feature.
