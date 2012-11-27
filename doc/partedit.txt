@@ -119,7 +119,8 @@ b:partedit_filetype				*b:partedit_filetype*
 g:partedit#auto_prefix				*g:partedit#auto_prefix*
 b:partedit_auto_prefix				*b:partedit_auto_prefix*
 	If this is true and |b:partedit_prefix| is empty, the common prefix of
-	range is treated as prefix.
+	range is treated as prefix.  The default value is true.
+
 
 
 ==============================================================================
