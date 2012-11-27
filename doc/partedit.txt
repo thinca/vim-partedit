@@ -31,11 +31,14 @@ INTERFACE					*partedit-interface*
 COMMANDS					*partedit-commands*
 
 :[range]Partedit [options]...			*:Partedit*
+:[range]Partedit [opener]
 	Starts editing a part of a buffer.  [range] of default is current
 	line.
 	[options] is pair of -option-name and value, such as following. >
 
 	:Partedit -opener new -filetype vim -prefix "> "
+<
+	If the argument is not started with "-", it is [opener].
 
 :ParteditEnd					*:ParteditEnd*
 	This is available in the partedit buffer.

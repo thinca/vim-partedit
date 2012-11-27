@@ -27,6 +27,9 @@ function! partedit#command(startline, endline, args)
     endif
     let options[opt] = value
   endwhile
+  if rest =~# '\S'
+    let options.opener = rest
+  endif
   call partedit#start(a:startline, a:endline, options)
 endfunction
 
