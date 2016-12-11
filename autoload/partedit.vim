@@ -74,6 +74,9 @@ function! partedit#start(startline, endline, ...)
   if prefix ==# '' && auto_prefix && 2 <= len(contents)
     let prefix = contents[0]
     for line in contents[1 :]
+      if line ==# ''
+        continue
+      endif
       let pat = substitute(line, '.', '[\0]', 'g')
       let prefix = matchstr(prefix, '^\%[' . pat . ']')
       if prefix ==# ''
