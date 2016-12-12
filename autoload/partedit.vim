@@ -105,8 +105,8 @@ function! partedit#start(startline, endline, ...)
   noautocmd hide execute opener '`=partial_bufname`'
 
   let [&l:fileencoding, &l:fileformat] = [fenc, ff]
-  silent put =s:adjust(contents)
-  silent 1 delete _
+  silent % delete _
+  call setline(1, s:adjust(contents))
 
   let b:partedit__bufnr = original_bufnr
   let b:partedit__lines = [a:startline, a:endline]
