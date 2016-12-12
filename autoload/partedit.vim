@@ -106,7 +106,7 @@ function! partedit#start(startline, endline, ...)
 
   let [&l:fileencoding, &l:fileformat] = [fenc, ff]
   silent % delete _
-  call setline(1, s:adjust(contents))
+  call setline(1, contents)
 
   let b:partedit__bufnr = original_bufnr
   let b:partedit__lines = [a:startline, a:endline]
@@ -160,7 +160,7 @@ function! s:apply()
   let modified = &l:modified
 
   silent execute printf('%d,%d delete _', start, end)
-  silent execute start - 1 'put' '=s:adjust(contents)'
+  silent execute start - 1 'put' '=contents'
 
   if &l:buftype =~# '^\%(\|acwrite\)$' && !modified
     write
@@ -172,10 +172,6 @@ function! s:apply()
   let b:partedit__contents = contents
   let b:partedit__lines = [start, start + len(contents) - 1]
   setlocal nomodified
-endfunction
-
-function! s:adjust(lines)
-  return a:lines[-1] == '' ? a:lines + [''] : a:lines
 endfunction
 
 function! s:search_partial(all, part, base)
