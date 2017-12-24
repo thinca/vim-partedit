@@ -77,7 +77,7 @@ function! partedit#start(startline, endline, ...)
       if line ==# ''
         continue
       endif
-      let pat = substitute(line, '.', '[\0]', 'g')
+      let pat = escape(substitute(line, '.', '[\0]', 'g'),'\')
       let prefix = matchstr(prefix, '^\%[' . pat . ']')
       if prefix ==# ''
         break
