@@ -175,8 +175,19 @@ function! s:trim_contents(contents, prefix, auto_prefix, prefix_pattern,)
 
   if a:prefix_pattern !=# ''
 
+    let allow_empty_line = ('' =~# '^' .. a:prefix_pattern)
+
     let len_prefix = -1
     for line in contents
+      if line ==# ''
+        if allow_empty_line
+          continue
+        else
+          let prefix = ''
+          let len_prefix = 0
+          break
+        endif
+      endif
       if len_prefix != -1
         let line = line[:len_prefix]
       endif
