@@ -188,8 +188,8 @@ function! s:trim_contents(contents, prefix, auto_prefix, prefix_pattern,)
           break
         endif
       endif
-      if len_prefix != -1
-        let line = line[:len_prefix]
+      if len_prefix > 0
+        let line = line[:len_prefix - 1]
       endif
       let prefix_provisional = matchstr(line, '^' .. a:prefix_pattern)
       let len_prefix = strlen(prefix_provisional)
