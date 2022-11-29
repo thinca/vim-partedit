@@ -177,7 +177,7 @@ function! s:trim_contents(contents, prefix, auto_prefix, prefix_pattern,)
 
     let len_prefix = -1
     for line in contents
-      if line =~# '^' .. a:prefix_pattern .. '$'
+      if line =~# '^' .. a:prefix_pattern .. '\v$'
         continue
       endif
       if len_prefix > 0
