@@ -118,8 +118,38 @@ b:partedit_filetype				*b:partedit_filetype*
 
 g:partedit#auto_prefix				*g:partedit#auto_prefix*
 b:partedit_auto_prefix				*b:partedit_auto_prefix*
-	If this is true and |b:partedit_prefix| is empty, the common prefix of
-	range is treated as prefix.  The default value is true.
+	If this is true, and both |b:partedit_prefix| and
+	|b:partedit_prefix_pattern| are empty, the common prefix of range is
+	treated as prefix.  The default value is true.
+
+g:partedit#prefix_pattern			*g:partedit#prefix_pattern*
+b:partedit_prefix_pattern			*b:partedit_prefix_pattern*
+	Similar to |b:partedit_prefix|, but this option can be specified by a
+	regex.  If this value is not empty, the common prefix of range that
+	matches the specified regex is treated as prefix.  With this option
+	set, |b:partedit_prefix| and |b:partedit_auto_prefix| are ignored.
+>
+	let b:partedit_prefix = '\v\s*//[/!]?\s*'
+
+	=== original buffer ===
+	// This is a sample comment.
+	//
+	// Upper line has prefix "//", not "// ". But this is OK.
+
+	=== partedit buffer ===
+	This is a sample comment.
+	
+	Upper line has prefix "//", not "// ". But this is OK.
+
+	=== original buffer ===
+	//! This is a sample documentation text.
+	//!
+	//! Upper line has prefix "//!", not "//! ". But this is OK.
+
+	=== partedit buffer ===
+	This is a sample documentation text.
+	
+	Upper line has prefix "//!", not "//! ". But this is OK.
 
 
 
