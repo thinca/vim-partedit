@@ -111,23 +111,15 @@ b:partedit_prefix				*b:partedit_prefix*
 	> All texts are restored with "> " prefix,
 	> but blank of the end of empty line is removed.
 
-g:partedit#filetype				*g:partedit#filetype*
-b:partedit_filetype				*b:partedit_filetype*
-	If this variable exists, 'filetype' of newly opened partedit buffer
-	becomes this value.
-
-g:partedit#auto_prefix				*g:partedit#auto_prefix*
-b:partedit_auto_prefix				*b:partedit_auto_prefix*
-	If this is true, and both |b:partedit_prefix| and
-	|b:partedit_prefix_pattern| are empty, the common prefix of range is
-	treated as prefix.  The default value is true.
-
 g:partedit#prefix_pattern			*g:partedit#prefix_pattern*
 b:partedit_prefix_pattern			*b:partedit_prefix_pattern*
 	Similar to |b:partedit_prefix|, but this option can be specified by a
 	regex.  If this value is not empty, the common prefix of range that
 	matches the specified regex is treated as prefix.  With this option
 	set, |b:partedit_prefix| and |b:partedit_auto_prefix| are ignored.
+	The longest common string satisfying the given regex is treated as a
+	prefix, and it is restored to the original buffer after editing the
+	partedit buffer.
 >
 	let b:partedit_prefix = '\v\s*//[/!]?\s*'
 
@@ -141,6 +133,24 @@ b:partedit_prefix_pattern			*b:partedit_prefix_pattern*
 	
 	Upper line has prefix "//", not "// ". But this is OK.
 
+		| edit
+		v
+	=== partedit buffer ===
+	This is a sample text.
+	
+	Upper line has prefix "//", not "// ". But this is OK.
+	
+	All texts are restored with "// " prefix,
+	but blank of the end of empty line is removed.
+
+	=== original buffer ===
+	// This is a sample text.
+	//
+	// Upper line has prefix "//", not "// ". But this is OK.
+	//
+	// All texts are restored with "// " prefix,
+	// but blank of the end of empty line is removed.
+
 	=== original buffer ===
 	//! This is a sample documentation text.
 	//!
@@ -150,6 +160,36 @@ b:partedit_prefix_pattern			*b:partedit_prefix_pattern*
 	This is a sample documentation text.
 	
 	Upper line has prefix "//!", not "//! ". But this is OK.
+
+		| edit
+		v
+	=== partedit buffer ===
+	This is a sample documentation text.
+	
+	Upper line has prefix "//!", not "//! ". But this is OK.
+	
+	All texts are restored with "//! " prefix,
+	but blank of the end of empty line is removed.
+
+	=== original buffer ===
+	//! This is a sample documentation text.
+	//!
+	//! Upper line has prefix "//!", not "//! ". But this is OK.
+	//!
+	//! All texts are restored with "//! " prefix,
+	//! but blank of the end of empty line is removed.
+
+
+g:partedit#filetype				*g:partedit#filetype*
+b:partedit_filetype				*b:partedit_filetype*
+	If this variable exists, 'filetype' of newly opened partedit buffer
+	becomes this value.
+
+g:partedit#auto_prefix				*g:partedit#auto_prefix*
+b:partedit_auto_prefix				*b:partedit_auto_prefix*
+	If this is true, and both |b:partedit_prefix| and
+	|b:partedit_prefix_pattern| are empty, the common prefix of range is
+	treated as prefix.  The default value is true.
 
 
 
