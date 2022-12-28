@@ -170,12 +170,13 @@ function! s:get_option(name, base, default)
 endfunction
 
 function! s:trim_contents(contents, prefix, auto_prefix, prefix_pattern,)
-  let contents = a:contents
+  let contents = copy(a:contents)
   let prefix = a:prefix
 
   if a:prefix_pattern !=# ''
-
+    let prefix_provisional = ''
     let len_prefix = -1
+
     for line in contents
       if line =~# '^' .. a:prefix_pattern .. '\v$'
         continue
