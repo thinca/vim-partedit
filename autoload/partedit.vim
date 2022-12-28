@@ -178,20 +178,20 @@ function! s:trim_contents(contents, prefix, auto_prefix, prefix_pattern,)
     let len_prefix = -1
 
     for line in contents
-      if line =~# '^' .. a:prefix_pattern .. '\v$'
+      if line =~# '^' . a:prefix_pattern . '\v$'
         continue
       endif
       if len_prefix > 0
-        let line = line[:len_prefix - 1]
+        let line = line[: len_prefix - 1]
       endif
-      let prefix_provisional = matchstr(line, '^' .. a:prefix_pattern)
+      let prefix_provisional = matchstr(line, '^' . a:prefix_pattern)
       let len_prefix = strlen(prefix_provisional)
       if len_prefix == 0
         break
       endif
     endfor
 
-    call map(contents, 'v:val[len_prefix:]')
+    call map(contents, 'v:val[len_prefix :]')
     let prefix = prefix_provisional
 
   else
