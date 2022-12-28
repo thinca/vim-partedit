@@ -47,13 +47,12 @@ function! partedit#start(startline, endline, ...)
   endif
   let options = a:0 ? a:1 : {}
   let original_bufnr = bufnr('%')
-  let contents = getline(a:startline, a:endline)
-  let original_contents = copy(contents)
+  let original_contents = getline(a:startline, a:endline)
 
   let prefix = s:get_option('prefix', options, '')
   let auto_prefix = s:get_option('auto_prefix', options, 1)
   let prefix_pattern = s:get_option('prefix_pattern', options, '')
-  let [contents, prefix] = s:trim_contents(contents, prefix, auto_prefix, prefix_pattern)
+  let [contents, prefix] = s:trim_contents(original_contents, prefix, auto_prefix, prefix_pattern)
 
   let filetype = s:get_option('filetype', options, &l:filetype)
   let [fenc, ff] = [&l:fileencoding, &l:fileformat]
