@@ -47,48 +47,12 @@ function! partedit#start(startline, endline, ...)
   endif
   let options = a:0 ? a:1 : {}
   let original_bufnr = bufnr('%')
-  let contents = getline(a:startline, a:endline)
-  let original_contents = contents
+  let original_contents = getline(a:startline, a:endline)
 
   let prefix = s:get_option('prefix', options, '')
-  if prefix !=# ''
-    let sprefix = substitute(prefix, '\s\+$', '', '')
-    let len = len(sprefix)
-    let pos = len - 1
-    let all_prefix_exists = 1
-    for line in contents
-      if line[: pos] !=# sprefix
-        let all_prefix_exists = 0
-        break
-      endif
-    endfor
-    if all_prefix_exists
-      let original_contents = copy(contents)
-      let pat = '^' . substitute(prefix, '\s\+$', '\\%(\0\\|$\\)', '')
-      call map(contents, 'substitute(v:val, pat, "", "")')
-    else
-      let prefix = ''
-    endif
-  endif
   let auto_prefix = s:get_option('auto_prefix', options, 1)
-  if prefix ==# '' && auto_prefix && 2 <= len(contents)
-    let prefix = contents[0]
-    for line in contents[1 :]
-      if line ==# ''
-        continue
-      endif
-      let pat = escape(substitute(line, '.', '[\0]', 'g'),'\')
-      let prefix = matchstr(prefix, '^\%[' . pat . ']')
-      if prefix ==# ''
-        break
-      endif
-    endfor
-    if prefix !=# ''
-      let original_contents = copy(contents)
-      let len = len(prefix)
-      call map(contents, 'v:val[len :]')
-    endif
-  endif
+  let prefix_pattern = s:get_option('prefix_pattern', options, '')
+  let [contents, prefix] = s:trim_contents(original_contents, prefix, auto_prefix, prefix_pattern)
 
   let filetype = s:get_option('filetype', options, &l:filetype)
   let [fenc, ff] = [&l:fileencoding, &l:fileformat]
@@ -202,6 +166,74 @@ function! s:get_option(name, base, default)
     return g:partedit#{a:name}
   endif
   return a:default
+endfunction
+
+function! s:trim_contents(contents, prefix, auto_prefix, prefix_pattern,)
+  let contents = copy(a:contents)
+  let prefix = a:prefix
+
+  if a:prefix_pattern !=# ''
+    let prefix_provisional = ''
+    let len_prefix = -1
+
+    for line in contents
+      if line =~# '^' . a:prefix_pattern . '\v$'
+        continue
+      endif
+      if len_prefix > 0
+        let line = line[: len_prefix - 1]
+      endif
+      let prefix_provisional = matchstr(line, '^' . a:prefix_pattern)
+      let len_prefix = strlen(prefix_provisional)
+      if len_prefix == 0
+        break
+      endif
+    endfor
+
+    call map(contents, 'v:val[len_prefix :]')
+    let prefix = prefix_provisional
+
+  else
+
+    if prefix !=# ''
+      let sprefix = substitute(prefix, '\s\+$', '', '')
+      let len = len(sprefix)
+      let pos = len - 1
+      let all_prefix_exists = 1
+      for line in contents
+        if line[: pos] !=# sprefix
+          let all_prefix_exists = 0
+          break
+        endif
+      endfor
+      if all_prefix_exists
+        let pat = '^' . substitute(prefix, '\s\+$', '\\%(\0\\|$\\)', '')
+        call map(contents, 'substitute(v:val, pat, "", "")')
+      else
+        let prefix = ''
+      endif
+    endif
+    if prefix ==# '' && a:auto_prefix && 2 <= len(contents)
+      let prefix = contents[0]
+      for line in contents[1 :]
+        if line ==# ''
+          continue
+        endif
+        let pat = escape(substitute(line, '.', '[\0]', 'g'),'\')
+        let prefix = matchstr(prefix, '^\%[' . pat . ']')
+        if prefix ==# ''
+          break
+        endif
+      endfor
+      if prefix !=# ''
+        let len = len(prefix)
+        call map(contents, 'v:val[len :]')
+      endif
+    endif
+
+  endif
+
+  return [contents, prefix]
 endfunction
 
 
