@@ -93,6 +93,7 @@ endfunction
 
 function! s:apply()
   let [start, end] = b:partedit__lines
+  let curpos = exists('*getcurpos') ? getcurpos() : getpos('.')
 
   if !v:cmdbang &&
   \    b:partedit__contents != getbufline(b:partedit__bufnr, start, end)
@@ -136,6 +137,7 @@ function! s:apply()
   let b:partedit__contents = contents
   let b:partedit__lines = [start, start + len(contents) - 1]
   setlocal nomodified
+  call setpos('.', curpos)
 endfunction
 
 function! s:search_partial(all, part, base)
